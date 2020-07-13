@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'question_model.dart';
+
 void main() => runApp(Quizzler());
 
 class Quizzler extends StatelessWidget {
@@ -25,24 +27,16 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  List<Icon> scoreKeeper = <Icon>[
-//    Icon(
-//      Icons.check,
-//      color: Colors.green,
-//    ),
-//    Icon(
-//      Icons.close,
-//      color: Colors.red,
-//    ),
-  ];
+  List<Icon> scoreKeeper = <Icon>[];
 
-  List<String> questions = [
-    'You can lead a cow down stairs but not up stairs.',
-    'Approximately one quarter of human bones are in the feet.',
-    'A slug\'s blood is green.',
+  List<QuestionsModel> questionBank = [
+    QuestionsModel(
+        q: 'You can lead a cow down stairs but not up stairs.', a: false),
+    QuestionsModel(
+        q: 'Approximately one quarter of human bones are in the feet.',
+        a: true),
+    QuestionsModel(q: 'A slug\'s blood is green.', a: true),
   ];
-
-  List<bool> answers = [false, true, true];
 
   int questionNumber = 0;
 
@@ -58,7 +52,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                questions[questionNumber],
+                questionBank[questionNumber].question,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -89,10 +83,9 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnsower = answers[questionNumber];
+                bool correctAnsower = questionBank[questionNumber].answer;
 
                 if (correctAnsower == true) {
-                  print('u right ');
                   scoreKeeper.add(
                     Icon(
                       Icons.check,
@@ -100,7 +93,6 @@ class _QuizPageState extends State<QuizPage> {
                     ),
                   );
                 } else {
-                  print('u wrong ');
                   scoreKeeper.add(
                     Icon(
                       Icons.close,
@@ -109,7 +101,7 @@ class _QuizPageState extends State<QuizPage> {
                   );
                 }
                 setState(() {
-                  if (questionNumber == questions.length - 1) {
+                  if (questionNumber == questionBank.length - 1) {
                     questionNumber = 0;
                   } else {
                     questionNumber++;
@@ -132,11 +124,10 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnsower = answers[questionNumber];
+                bool correctAnsower = questionBank[questionNumber].answer;
 
                 //The user picked false.
                 if (correctAnsower == false) {
-                  print('u right ');
                   scoreKeeper.add(
                     Icon(
                       Icons.check,
@@ -144,7 +135,6 @@ class _QuizPageState extends State<QuizPage> {
                     ),
                   );
                 } else {
-                  print('u wrong ');
                   scoreKeeper.add(
                     Icon(
                       Icons.close,
@@ -153,7 +143,7 @@ class _QuizPageState extends State<QuizPage> {
                   );
                 }
                 setState(() {
-                  if (questionNumber == questions.length - 1) {
+                  if (questionNumber == questionBank.length - 1) {
                     questionNumber = 0;
                   } else {
                     questionNumber++;
