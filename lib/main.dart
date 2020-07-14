@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'question_model.dart';
+import 'quiz_brain.dart';
 
+QuizBrain brain = QuizBrain();
 void main() => runApp(Quizzler());
 
 class Quizzler extends StatelessWidget {
@@ -29,17 +30,6 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = <Icon>[];
 
-  List<QuestionsModel> questionBank = [
-    QuestionsModel(
-        q: 'You can lead a cow down stairs but not up stairs.', a: false),
-    QuestionsModel(
-        q: 'Approximately one quarter of human bones are in the feet.',
-        a: true),
-    QuestionsModel(q: 'A slug\'s blood is green.', a: true),
-  ];
-
-  int questionNumber = 0;
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -52,7 +42,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                questionBank[questionNumber].question,
+                brain.getQuestion(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -83,7 +73,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnsower = questionBank[questionNumber].answer;
+                bool correctAnsower = brain.getAnswer();
 
                 if (correctAnsower == true) {
                   scoreKeeper.add(
@@ -101,10 +91,15 @@ class _QuizPageState extends State<QuizPage> {
                   );
                 }
                 setState(() {
-                  if (questionNumber == questionBank.length - 1) {
-                    questionNumber = 0;
+                  if (brain.getQuestionNumber() == brain.getBankLength()) {
+                    scoreKeeper.add(
+                      Icon(
+                        Icons.ac_unit,
+                        color: Colors.orange,
+                      ),
+                    );
                   } else {
-                    questionNumber++;
+                    brain.setQuestionNumber();
                   }
                 });
               },
@@ -124,7 +119,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnsower = questionBank[questionNumber].answer;
+                bool correctAnsower = brain.getAnswer();
 
                 //The user picked false.
                 if (correctAnsower == false) {
@@ -143,10 +138,15 @@ class _QuizPageState extends State<QuizPage> {
                   );
                 }
                 setState(() {
-                  if (questionNumber == questionBank.length - 1) {
-                    questionNumber = 0;
+                  if (brain.getQuestionNumber() == brain.getBankLength()) {
+                    scoreKeeper.add(
+                      Icon(
+                        Icons.ac_unit,
+                        color: Colors.orange,
+                      ),
+                    );
                   } else {
-                    questionNumber++;
+                    brain.setQuestionNumber();
                   }
                 });
               },
