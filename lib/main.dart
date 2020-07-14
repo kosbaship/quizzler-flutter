@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'quiz_brain.dart';
 
@@ -51,6 +52,14 @@ class _QuizPageState extends State<QuizPage> {
           );
         }
         brain.setQuestionNumber();
+      } else {
+        Alert(
+                context: context,
+                title: "Finish",
+                desc: "you have reched the end of the Quiz.")
+            .show();
+        brain.restQuiz();
+        scoreKeeper.clear();
       }
     });
   }

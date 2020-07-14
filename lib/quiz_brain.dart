@@ -44,6 +44,10 @@ class QuizBrain {
     return _questionNumber;
   }
 
+  void restQuiz() {
+    _questionNumber = 0;
+  }
+
   void setQuestionNumber() {
     if (_questionNumber < _questionBank.length - 1) {
       _questionNumber++;
