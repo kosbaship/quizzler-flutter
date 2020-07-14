@@ -30,6 +30,31 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = <Icon>[];
 
+  void checkAnswer(bool userSelection) {
+    bool correctAnsower = brain.getAnswer();
+    //The user picked false.
+    setState(() {
+      if (brain.getQuestionNumber() < brain.getBankLength() - 1) {
+        if (userSelection == correctAnsower) {
+          scoreKeeper.add(
+            Icon(
+              Icons.check,
+              color: Colors.green,
+            ),
+          );
+        } else {
+          scoreKeeper.add(
+            Icon(
+              Icons.close,
+              color: Colors.red,
+            ),
+          );
+        }
+        brain.setQuestionNumber();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -73,35 +98,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnsower = brain.getAnswer();
-
-                if (correctAnsower == true) {
-                  scoreKeeper.add(
-                    Icon(
-                      Icons.check,
-                      color: Colors.green,
-                    ),
-                  );
-                } else {
-                  scoreKeeper.add(
-                    Icon(
-                      Icons.close,
-                      color: Colors.red,
-                    ),
-                  );
-                }
-                setState(() {
-                  if (brain.getQuestionNumber() == brain.getBankLength()) {
-                    scoreKeeper.add(
-                      Icon(
-                        Icons.ac_unit,
-                        color: Colors.orange,
-                      ),
-                    );
-                  } else {
-                    brain.setQuestionNumber();
-                  }
-                });
+                checkAnswer(true);
               },
             ),
           ),
@@ -119,36 +116,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnsower = brain.getAnswer();
-
-                //The user picked false.
-                if (correctAnsower == false) {
-                  scoreKeeper.add(
-                    Icon(
-                      Icons.check,
-                      color: Colors.green,
-                    ),
-                  );
-                } else {
-                  scoreKeeper.add(
-                    Icon(
-                      Icons.close,
-                      color: Colors.red,
-                    ),
-                  );
-                }
-                setState(() {
-                  if (brain.getQuestionNumber() == brain.getBankLength()) {
-                    scoreKeeper.add(
-                      Icon(
-                        Icons.ac_unit,
-                        color: Colors.orange,
-                      ),
-                    );
-                  } else {
-                    brain.setQuestionNumber();
-                  }
-                });
+                checkAnswer(false);
               },
             ),
           ),

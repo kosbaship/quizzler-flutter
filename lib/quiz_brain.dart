@@ -45,7 +45,9 @@ class QuizBrain {
   }
 
   void setQuestionNumber() {
-    _questionNumber++;
+    if (_questionNumber < _questionBank.length - 1) {
+      _questionNumber++;
+    }
   }
 
   String getQuestion() {
